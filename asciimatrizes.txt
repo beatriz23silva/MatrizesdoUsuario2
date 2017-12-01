@@ -1,0 +1,686 @@
+﻿
+== *Manipulando Matrizes*
+
+O projeto Manipulando Matrizes tem como objetivo possibilitar a manipulação de matrizes de maneira mais prática e rápida.
+Através de um simples menu, o usuário interage com o software e, através do mesmo, escolhe as operações que deseja realizar 
+com suas matrizes.
+Logo abaixo, listamos as operações que este projeto realiza:
+
+* (1) Definir o tamanho da matriz A
+* (2) Definir o tamanho da matriz B
+* (3) Preencher a matriz A com valores aleatórios
+* (4) Preencher a matriz B com valores aleatórios
+* (5) Atribuir valores manualmente para os elementos da matriz A
+* (6) Atribuir valores manualmente para os elementos da matriz B
+* (7) Calcular A+B
+* (8) Calcular A-B
+* (9) Calcular A*B
+* (10) Imprimir matriz A
+* (11) Imprimir matriz B
+* (12) Imprimir matriz C
+* (13) Ler a matriz A de um arquivo
+* (14) Ler a matriz B de um arquivo
+* (15) Escrever a matriz C em um arquivo
+* (16) Sair
+
+_1 Definir o tamanho da matriz A_
+
+Para definir o tamanho da matriz A, foi desenvolvida a função tamMatrizA(), através da qual é solicitado
+ao usuário que forneça o tamanho de sua matriz, ou seja, o número de linhas e colunas. Ainda nesta mesma função,
+é verificado se o tamanho definido pelo usuário excede o numero maximo de linhas e colunas (NMAXLINHAS e NMAXCOLUNAS)
+definidos no inicio do código, ambos com o valor 20.
+
+[source,C]
+----
+void tamMatrizA(){
+
+    do{
+        printf("digite o numero de linhas : ");
+        scanf("%d", &nlinhasA);
+
+
+        if (nlinhasA > NMAXLINHAS){
+            printf("Digite no maximo 20 linhas!\n");
+        }
+
+
+    } while(nlinhasA > NMAXLINHAS);
+
+    do{
+        printf("digite o numero de colunas: ");
+        scanf("%d", &ncolunasA);
+        if (nlinhasA > NMAXLINHAS){
+            printf("Digite no maximo 20 colunas!\n");
+        }
+    } while(ncolunasA > NMAXCOLUNAS);
+
+
+    for (i=0; i<nlinhasA; i++){
+        for (j=0; j<ncolunasA; j++){
+
+            matrizA[i][j] = 0;
+
+
+        }
+
+
+    }
+
+    aux_numA=1;
+
+}
+----
+
+_2 Definir o tamanho da matriz B_
+
+Assim como para a matriz A, para definir o tamanho da matriz B, foi desenvlvida a função tamMatrizB(), através da qual é solicitado
+ao usuário que forneça o tamanho de sua matriz, ou seja, o número de linhas e colunas. Ainda nesta mesma função,
+é verificado se o tamanho definido pelo usuário excede o número máximo de linhas e colunas (NMAXLINHAS e NMAXCOLUNAS)
+definidos no inicio do código, ambos com o valor 20.
+
+[source,C]
+----
+void tamMatrizB(){
+
+    do{
+        printf("digite o numero de linhas : ");
+        scanf("%d", &nlinhasB);
+    } while(nlinhasB > NMAXLINHAS);
+
+    do{
+        printf("digite o numero de colunas: ");
+        scanf("%d", &ncolunasB);
+    } while(ncolunasB > NMAXCOLUNAS);
+
+    for (i=0; i<nlinhasB; i++){
+        for (j=0; j<ncolunasB; j++){
+
+            matrizB[i][j] = 0;
+
+
+        }
+
+
+    }
+    aux_numB=1;
+}
+
+----
+
+_3 Preencher a matriz A com valores aleatórios_
+Para oferecer a possibilidade ao usuário do preenchimento de sua matriz A com valores aletórios, foi desenvolvida a função num_aleatoriosA(),
+a qual, através da função rand() preenche toda a matriz om valores aleatórios. Antes de realizar esta operação, a função verifica se o tamanho 
+da matriz já foi definido pelo usuário. Após preencher a matriz, a mesma é escrita em um arquivo através da função EscreverarquivoMatrizA(), a qual
+será comentada posteriormente.
+
+[source,C]
+----
+void num_aleatoriosA(){
+
+    if (aux_numA == 0){
+
+
+        printf("Voce nao digitou o tamanho da matriz A. Retorne para a opcao (1). \n");
+
+    }
+
+    srand(time(0));
+    for(i=0; i<nlinhasA; i++){
+        for(j=0; j<ncolunasA; j++){
+
+            matrizA[i][j] = rand();
+        }
+    }
+    EscreverarquivoMatrizA();
+}
+----
+
+_4 Preencher a matriz B com valores aleatórios_
+
+Assim como para a matriz A, foi desenvolvida a função num_aleatoriosB() para permitir o preenchimento da matriz B também com números
+aleatórios. Após o preenchimento da matriz, a mesma é escrita em um arquivo através da função EscreverarquivoMatrizB(), a qual será
+comentada posteriormente.
+
+[source,C]
+----
+void num_aleatoriosB(){
+    if (aux_numB == 0){
+
+
+        printf("Voce nao digitou o tamanho da matriz B. Retorne para a opcao (2). \n");
+
+    }
+    srand(time(0));
+    for (i=0; i<nlinhasB; i++){
+        for (j=0; j<ncolunasB; j++){
+
+            matrizB[i][j] = rand();
+        }
+
+    }
+    EscreverarquivoMatrizB();
+}
+----
+
+_5 Atribuir valores manualmente para os elementos da matriz A_
+
+A função atribuir_A() possibilita ao usuário atribuir valores que desejar, sendo esses do tipo float, para a matriz A. Após o preenchimento da matriz, a mesma é escrita em um arquivo através da função EscreverarquivoMatrizA(), a qual será
+comentada posteriormente.
+
+[source,C]
+----
+void atribuir_A(){
+     printf("aux_numA: %d ", aux_numA);
+    if (aux_numA == 0){
+
+
+        printf("Voce nao digitou o tamanho da matriz A. Retorne para a opcao (1). \n");
+
+    }
+    for(i=0; i<nlinhasA; i++){
+        for(j=0; j<ncolunasA; j++){
+
+            printf("digite o elemento (%d,%d):", i,j);
+            scanf("%f", &matrizA[i][j]);
+        }
+    }
+
+    EscreverarquivoMatrizA();
+
+
+}
+----
+
+_6 Atribuir valores manualmente para os elementos da matriz B_
+
+Assim como para a matriz A, foi desenvolvida a função atribuir_B() para permitir o preenchimento da matriz B de acordo com o desejado pelo usuário. Após o preenchimento da matriz, a mesma é escrita em um arquivo através da função EscreverarquivoMatrizB(), a qual será
+comentada posteriormente.
+
+[source,C]
+----
+void atribuir_B(){
+    if (aux_numB == 0){
+
+
+        printf("Voce nao digitou o tamanho da matriz B. Retorne para a opcao (2). \n");
+
+    }
+    for(i=0; i<nlinhasB; i++){
+        for(j=0; j<ncolunasB; j++){
+
+            printf("digite o elemento (%d,%d):", i,j);
+            scanf("%f", &matrizB[i][j]);
+        }
+    }
+
+   EscreverarquivoMatrizB();
+}
+----
+
+_7 Calcular A+B_
+
+Para realizar a operação de soma entre as matrizes A e B respectivamente, foi criada a função soma(), a qual se encarrega, como já predito,  de realizar a soma entre as matrizes A e B. O resultado é armazenado em uma matriz denominada matriz C.
+É importante notar que é necessário que o número de linhas e colunas de ambas as matrizes sejam iguais para a realização efetiva dessa operação. Após o preenchimento da matriz C, a mesma é escrita em um arquivo através da função EscreverarquivoMatrizC(), a qual será
+comentada posteriormente.
+
+[source,C]
+----
+for (i=0; i<nlinhasA; i++){
+        for (j=0; j<ncolunasA; j++){
+
+            matrizC[i][j] = 0;
+
+
+        }
+
+
+    }
+
+    if (aux_numA==0 && aux_numB==0) {
+        printf("Voce nao digitou o tamanho da matriz A nem o da B. Retorne para a opcao (1) e para a opcao (2). \n");
+
+    }
+    else if (aux_numA == 0 ){
+
+
+        printf("Voce nao digitou o tamanho da matriz A. Retorne para a opcao (1). \n");
+
+    }
+    else if (aux_numB ==0) {
+
+
+        printf("Voce nao digitou o tamanho da matriz B. Retorne para a opcao (2). \n");
+
+    }
+    else if (nlinhasA!=nlinhasB){
+
+        printf("O numero de linhas de A e B sao diferentes. \n "
+               "A operacao nao pode ser realizada. \n");
+
+
+    }
+    else if (ncolunasA!=ncolunasB){
+
+        printf("O numero de colunas de A e B sao diferentes. \n "
+               "A operacao nao pode ser realizada. \n");
+
+    }
+
+
+
+    nlinhas = nlinhasB;
+    ncolunas = ncolunasB;
+    for (i=0; i<nlinhas; i++){
+        for(j=0; j<ncolunas; j++){
+
+            matrizC[i][j]= matrizA[i][j] + matrizB[i][j];
+
+        }
+
+
+    }
+    EscreverarquivoMatrizC();
+}
+----
+
+_8 Calcular A-B_
+
+Para realizar a operação de subtração entre as matrizes A e B respectivamente, foi criada a função sub(), a qual se encarrega, como já predito, de realizar a subtração entre as matrizes A e B. O resultado é armazenado em uma matriz denominada matriz C.
+É importante notar que é necessário que o número de linhas e colunas de ambas as matrizes sejam iguais para a realização efetiva dessa operação. Após o preenchimento da matriz C, a mesma é escrita em um arquivo através da função EscreverarquivoMatrizC(), a qual será
+comentada posteriormente.
+
+[source,C]
+----
+void sub(){
+    for (i=0; i<nlinhasA; i++){
+        for (j=0; j<ncolunasA; j++){
+
+            matrizC[i][j] = 0;
+
+
+        }
+
+
+    }
+    if (aux_numA == 0 && aux_numB==0) {
+        printf("Voce nao digitou o tamanho da matriz A nem o da B. Retorne para a opcao (1) e para a opcao (2). \n");
+
+
+    }
+    else if (aux_numA == 0 ){
+
+
+        printf("Voce nao digitou o tamanho da matriz A. Retorne para a opcao (1). \n");
+
+    }
+    else if (aux_numB ==0) {
+
+
+        printf("Voce nao digitou o tamanho da matriz B. Retorne para a opcao (2). \n");
+
+    }
+    else if (nlinhasA!=nlinhasB){
+
+        printf("O numero de linhas de A e B sao diferentes. \n "
+               "A operacao nao pode ser realizada. \n");
+
+
+    }
+    else if (ncolunasA!=ncolunasB){
+
+        printf("O numero de colunas de A e B sao diferentes. \n "
+               "A operacao nao pode ser realizada. \n");
+
+    }
+
+
+
+    nlinhas = nlinhasB;
+    ncolunas = ncolunasB;
+    for (i=0; i<nlinhas; i++){
+        for(j=0; j<ncolunas; j++){
+
+            matrizC[i][j]= matrizA[i][j] - matrizB[i][j];
+
+        }
+
+
+    }
+    EscreverarquivoMatrizC();
+}
+----
+
+_9 Calcular A*B_
+
+Para realizar a operação de multipliação entre as matrizes A e B respectivamente, foi criada a função mult(), a qual se encarrega, como já predito, de realizar a multiplicação entre as matrizes A e B. O resultado é armazenado em uma matriz denominada matriz C.
+É importante notar que é necessário que o número de colunas da matriz A e o número de linhas da matriz B sejam iguais para a realização efetiva dessa operação. Após o preenchimento da matriz C, a mesma é escrita em um arquivo através da função EscreverarquivoMatrizC(), a qual será
+comentada posteriormente.
+
+[source,C]
+----
+void mult(){
+
+    for (i=0; i<nlinhasA; i++){
+        for (j=0; j<ncolunasB; j++){
+
+            matrizC[i][j] = 0;
+
+
+        }
+
+
+    }
+
+
+    if (aux_numA == 0 && aux_numB==0) {
+        printf("Voce nao digitou o tamanho da matriz A nem o da B. Retorne para a opcao (1) e para a opcao (2). \n");
+
+
+    }
+    else if (aux_numA == 0){
+
+
+        printf("Voce nao digitou o tamanho da matriz A. Retorne para a opcao (1). \n");
+
+    }
+    else if (aux_numB ==0) {
+
+
+        printf("Voce nao digitou o tamanho da matriz B. Retorne para a opcao (2). \n");
+
+    }
+    else if (ncolunasA!=nlinhasB){
+
+        printf("O numero de linhas de A e de colunas de B sao diferentes. \n "
+               "A operacao nao pode ser realizada. \n");
+
+
+    }
+    int k;
+    for (i=0; i<nlinhasA; i++){
+        for(j=0; j<nlinhasA; j++){
+            for(k=0; k<ncolunasA;k++){
+                matrizC[i][j]= matrizC[i][j] + (matrizA[i][k] * matrizB[k][j]);
+            }
+
+
+        }
+    }
+    EscreverarquivoMatrizC();
+}
+----
+
+_10 Imprimir matriz A_
+
+A matriz A pode ser facilmente visualizada pelo usuário através da função ImprimirA(), criada exatamante para essa finalidade.
+
+[source,C]
+----
+void ImprimirA(){
+    if (aux_numA == 0 ){
+
+
+        printf("Voce nao digitou o tamanho da matriz A. Retorne para a opcao (1). \n");
+
+    }
+
+
+    for (i=0; i<nlinhasA; i++){
+        for(j=0; j<ncolunasA; j++){
+
+            printf("%g ", matrizA[i][j]);
+
+        }
+        printf("\n");
+
+    }
+}
+----
+
+_11 Imprimir matriz B_
+
+Da mesma forma que para a matriz A, a matriz B pode ser facilmente visualizada pelo usuário através da função ImprimirB(), criada com esse intuito.
+
+[source,C]
+----
+void ImprimirB(){
+    if (aux_numB == 0 ){
+
+
+        printf("Voce nao digitou o tamanho da matriz B. Retorne para a opcao (2). \n");
+
+    }
+
+    for (i=0; i<nlinhasB; i++){
+        for(j=0; j<ncolunasB; j++){
+
+            printf("%g ", matrizB[i][j]);
+
+        }
+        printf("\n");
+
+    }
+
+}
+----
+
+_12 Imprimir matriz C_
+
+Da mesma forma que para as matrizes A e B, a matriz C pode ser facilmente visualizada pelo usuário através da função ImprimirC(), criada com esse intuito. 
+É ideal que essa matriz já tenha sido preenchida com elementos obtidos por meio das operações entre as matrizes A e B. Caso contrário, retorna uma matriz contendo
+apenas elementos 0 (zero) para o usuário. 
+
+[source,C]
+----
+void ImprimirC(){
+    if (aux_numA == 0 && aux_numB==0) {
+        printf("Voce nao digitou o tamanho da matriz A nem o da B. Retorne para a opcao (1) e para a opcao (2). \n");
+
+
+    }
+    else if (aux_numA==0){
+
+
+        printf("Voce nao digitou o tamanho da matriz A. Retorne para a opcao (1). \n");
+
+    }
+    else if (aux_numB==0) {
+
+
+        printf("Voce nao digitou o tamanho da matriz B. Retorne para a opcao (2). \n");
+
+    }
+
+    nlinhasC = nlinhasA;
+    ncolunasC = ncolunasB;
+
+    for (i=0; i<nlinhasA; i++){
+        for(j=0; j<ncolunasB; j++){
+
+            printf("%g ", matrizC[i][j]);
+
+        }
+        printf("\n");
+
+    }
+}
+----
+
+_13 Ler a matriz A de um arquivo_
+
+Para possibilitar ao usuário ler a matriz A de um arquivo, foi criada a função LerarquivoMatrizA(). Essa função realiza a leitura da matriz A de um arquivo por 
+um endereço já pré-definido desse. 
+
+[source,C]
+----
+void LerarquivoMatrizA(){
+
+    FILE *arquivo;
+    int i,j;
+
+
+ arquivo = fopen("C:/Users/D2/Desktop/matrizA.txt", "r");
+
+ if (arquivo == NULL){
+     printf("Nao foi possivel encontrar o arquivo! \n");
+     exit(0);
+ }
+
+   for (i=0; i<nlinhasA; i++){
+        for (j=0; j<nlinhasA; j++){
+            printf(" %g", matrizA[i][j]);
+
+
+    }
+printf("\n");
+    }
+
+    fclose(arquivo);
+    printf("A matriz A foi lida com sucesso! \n");
+
+}
+----
+
+_14 Ler a matriz B de um arquivo_
+
+Para possibilitar ao usuário ler a matriz B de um arquivo, foi criada a função LerarquivoMatrizB(). Essa função realiza a leitura da matriz B de um arquivo por 
+um endereço já pré-definido desse. 
+
+[source,C]
+----
+void LerarquivoMatrizB(){
+
+    FILE *arquivo;
+    int i,j;
+
+
+ arquivo = fopen("C:/Users/D2/Desktop/matrizB.txt", "r");
+
+ if (arquivo == NULL){
+     printf("Nao foi possivel encontrar o arquivo! \n");
+     exit(0);
+ }
+
+   for (i=0; i<nlinhasB; i++){
+        for (j=0; j<nlinhasB; j++){
+            printf(" %g", matrizB[i][j]);
+
+
+    }
+printf("\n");
+    }
+
+    fclose(arquivo);
+    printf("A matriz B foi lida com sucesso! \n");
+
+
+}
+----
+
+_15 Escrever a matriz A em um arquivo_
+
+Para possibilitar ao usuário a escrita da matriz A em um arquivo, foi criada a função EscreverarquivoMatrizA(). Essa função realiza a escrita da matriz A de um arquivo por 
+um endereço já pré-definido desse. 
+
+[source,C]
+----
+void EscreverarquivoMatrizA(){
+    FILE *arquivo;
+    int i,j;
+
+
+ arquivo = fopen("C:/Users/D2/Desktop/matrizA.txt", "w");
+
+ if (arquivo == NULL){
+     printf("Nao foi possivel encontrar o arquivo! \n");
+     exit(0);
+ }
+
+    for (i=0; i<nlinhasA; i++){
+        for (j=0; j<nlinhasA; j++){
+            fprintf(arquivo, " %g", matrizA[i][j]);
+
+
+    }
+fprintf(arquivo, "\n");
+    }
+
+    fclose(arquivo);
+
+}
+----
+
+_16 Escrever a matriz B em um arquivo_
+
+Para possibilitar ao usuário a escrita da matriz B em um arquivo, foi criada a função EscreverarquivoMatrizB(). Essa função realiza a escrita da matriz B de um arquivo por 
+um endereço já pré-definido desse. 
+
+[source,C]
+----
+void EscreverarquivoMatrizB(){
+    FILE *arquivo;
+    int i,j;
+
+
+ arquivo = fopen("C:/Users/D2/Desktop/matrizB.txt", "w");
+
+ if (arquivo == NULL){
+     printf("Nao foi possivel encontrar o arquivo! \n");
+     exit(0);
+ }
+
+    for (i=0; i<nlinhasB; i++){
+        for (j=0; j<nlinhasB; j++){
+            fprintf(arquivo, " %g", matrizB[i][j]);
+
+
+    }
+fprintf(arquivo, "\n");
+    }
+
+    fclose(arquivo);
+
+}
+----
+
+
+_17 Escrever a matriz C em um arquivo_
+
+Para possibilitar ao usuário a escrita da matriz C em um arquivo, foi criada a função EscreverarquivoMatrizC(). Essa função realiza a escrita da matriz C de um arquivo por 
+um endereço já pré-definido desse. 
+
+[source,C]
+----
+void EscreverarquivoMatrizC(){
+    FILE *arquivo;
+    int i,j;
+
+
+ arquivo = fopen("C:/Users/D2/Desktop/matrizC.txt", "w");
+
+ if (arquivo == NULL){
+     printf("Nao foi possivel encontrar o arquivo! \n");
+     exit(0);
+ }
+
+    for (i=0; i<nlinhasA; i++){
+        for (j=0; j<nlinhasA; j++){
+            fprintf(arquivo, " %g", matrizC[i][j]);
+
+
+    }
+fprintf(arquivo, "\n");
+    }
+
+    fclose(arquivo);
+}
+----
+
+_18 Sair_
+
+Caso o usuário deseje sair do programa, é possível fazê-lo digitando o correspondente número dessa operação, listada no menu (número 16). 
+Essa operação é feita por meio da função Opcao(), a qual para o laço while a partir do momento em que essa opção é escolhida e o programa, portanto, é finalizado.
+
+
+
+
